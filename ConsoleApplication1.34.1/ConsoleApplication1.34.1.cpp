@@ -15,6 +15,13 @@ public:
 	}
 };
 
+class ProductException : public exception {
+public:
+	const char* what() const noexcept override {
+		return "нет такого товара.";
+	}
+};
+
 	map<string, int>warehouseGoods;
 	map<string, int>shoppingCart;
 
@@ -27,7 +34,7 @@ public:
 		map<string, int>::iterator it;
 		it = goods.find(artNumber);
 		if (it == goods.end()) {
-			throw goods;
+			throw ProductException();
 		}
 		if (quantGoods <= 0) {
 			throw invalid_argument(" Неверный ввод количества товара.");
@@ -48,7 +55,7 @@ public:
 		map<string, int>::iterator it;
 		it = shoppCart.find(artNumber);
 		if (it == shoppCart.end()) {
-			throw shoppCart;
+			throw ProductException();
 		}
 		if (quantGoods <= 0) {
 			throw invalid_argument(" Неверный ввод количества товара.");
@@ -95,6 +102,9 @@ int main()
 				}
 			}
 			catch (const ItemException& err) {
+				cerr << "\nВыброшено исключение: " << err.what();
+			}
+			catch (const ProductException& err) {
 				cerr << "\nВыброшено исключение: " << err.what();
 			}
 			catch (invalid_argument err) {
