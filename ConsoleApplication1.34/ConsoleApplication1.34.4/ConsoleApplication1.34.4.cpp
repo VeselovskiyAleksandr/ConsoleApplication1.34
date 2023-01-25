@@ -19,8 +19,8 @@ T arithmeticMean(const vector<T>& v) {
 }
 
 void checkInput(int numEl) {
-	if (numEl == 0) {
-		throw invalid_argument("деление на ноль.");
+	if (numEl ==0) {
+		throw invalid_argument("нулевой размер вектора.");
 	}
 }
 
@@ -28,53 +28,61 @@ int main()
 {
 	setlocale(LC_ALL, "rus");
 	int numberElements = 0;
-	try {
-		vector<double>vectd;
-		cout << "\nУкажите количество элементов double-массива: ";
-		cin >> numberElements;
-		checkInput(numberElements);
-		vectd.resize(numberElements);
-		cout << "\nЗаполните double-массив: ";
-		for (int i = 0; i < numberElements; ++i) {
-			cin >> vectd[i];
+	bool input = true;
+		try {
+			vector<double>vectd;
+			cout << "\nУкажите количество элементов double-массива: ";
+			cin >> numberElements;
+			checkInput(numberElements);
+			vectd.resize(numberElements);
+			cout << "\nЗаполните double-массив: ";
+			for (int i = 0; i < numberElements; ++i) {
+				cin >> vectd[i];
+			}
+			cout << "\nСреднее арифметическое double-массива: " << arithmeticMean(vectd);
+			numberElements = 0;
+			input = false;
 		}
-		cout << "\nСреднее арифметическое double-массива: " << arithmeticMean(vectd);
-		numberElements = 0;
-	}
-	catch (const invalid_argument& err) {
-		cerr << "\nВызвано исключение : " << err.what();
-	}
+		catch (const invalid_argument& err) {
+			cerr << "\nВызвано исключение : " << err.what();
+			return 1;
+		}
 		vector<int>vecti;
-		try{
-		cout << "\nУкажите количество элементов int-массива: ";
-		cin >> numberElements;
-		checkInput(numberElements);
-		vecti.resize(numberElements);
-		cout << "\nЗаполните int-массив: ";
-		for (int i = 0; i < numberElements; ++i) {
-			cin >> vecti[i];
-		}
-		cout << "\nСреднее арифметическое int-массива: " << arithmeticMean(vecti);
-		numberElements = 0;
-	}
-		catch (const invalid_argument& err) {
-			cerr << "\nВызвано исключение : " << err.what();
-		}
+			try {
+				cout << "\nУкажите количество элементов int-массива: ";
+				cin >> numberElements;
+				checkInput(numberElements);
+				vecti.resize(numberElements);
+				cout << "\nЗаполните int-массив: ";
+				for (int i = 0; i < numberElements; ++i) {
+					cin >> vecti[i];
+				}
+				cout << "\nСреднее арифметическое int-массива: " << arithmeticMean(vecti);
+				numberElements = 0;
+				input = false;
+			}
+			catch (const invalid_argument& err) {
+				cerr << "\nВызвано исключение : " << err.what();
+				return 1;
+			}
 		vector<char>vectch;
-		try{
-		cout << "\nУкажите количество элементов char-массива: ";
-		cin >> numberElements;
-		checkInput(numberElements);
-		vectch.resize(numberElements);
-		cout << "\nЗаполните char-массив: ";
-		for (int i = 0; i < numberElements; ++i) {
-			cin >> vectch[i];
-		}
-		cout << "\nСреднее арифметическое char-массива: " << arithmeticMean(vectch);
-	}
-		catch (const invalid_argument& err) {
-			cerr << "\nВызвано исключение : " << err.what();
-		}
+			try {
+				cout << "\nУкажите количество элементов char-массива: ";
+				cin >> numberElements;
+				checkInput(numberElements);
+				vectch.resize(numberElements);
+				cout << "\nЗаполните char-массив: ";
+				for (int i = 0; i < numberElements; ++i) {
+					cin >> vectch[i];
+				}
+				cout << "\nСреднее арифметическое char-массива: " << arithmeticMean(vectch);
+				numberElements = 0;
+				input = false;
+			}
+			catch (const invalid_argument& err) {
+				cerr << "\nВызвано исключение : " << err.what();
+				return 1;
+			}
 	return 0;
 }
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
