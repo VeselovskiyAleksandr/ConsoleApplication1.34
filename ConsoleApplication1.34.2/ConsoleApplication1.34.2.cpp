@@ -23,6 +23,20 @@ public:
 	}
 };
 
+class BiteException : public exception {
+public:
+	const char* what() const noexcept override {
+		return "Поздравляем Вы поймали рыбку. Может быть она золотая.";
+	}
+};
+
+class FishException : public exception {
+public:
+	const char* what() const noexcept override {
+		return "Ваш сапог!";
+	}
+};
+
 int castingFishingRod() {
 	int numField=0;
 			cout << "\nЗабросьте удочку (введите число от 1 до 9 включительно).";
@@ -39,6 +53,15 @@ int castingFishingRod() {
 		return numField-1;
 }
 
+void bite(int hook) {
+	if (hook == 1) {
+		throw BiteException();
+	}
+	else if (hook == -1) {
+		throw FishException();
+	}
+}
+
 int main()
 {
 	setlocale(LC_ALL, "rus");
@@ -53,7 +76,7 @@ int main()
 	cout << "                               Из - под уток и гусей\n";
 	cout << "                               Извлекает карасей...\n";
 
-	int field[9], numberField=0, fishedOut=0;
+	int field[9], numberField=0, fishedOut=0, castCounter=0;
 	bool cast = true;
 	for (int i = 0; i < 9; ++i) {
 		field[i] = 0;
@@ -73,6 +96,7 @@ int main()
 		while (cast) {
 			try {
 				fishedOut = field[castingFishingRod()];
+				bite(fishedOut);
 				cast = false;
 			}
 			catch (const invalid_argument& err) {
@@ -83,22 +107,25 @@ int main()
 			}
 			catch (MeaningException& err) {
 				cerr << "\nВызвано исключение : " << err.what();
-				return 1;
+		    	return 1;
+			}
+			catch(BiteException & err) {
+				cerr << "\nВызвано исключение : " << err.what();
+				cout << "\nКоличество пустых забросов: " << castCounter;
+				return -1;
+			}
+			catch  (FishException& err) {
+				cerr << "\nВызвано исключение : " << err.what();
+				cout << "\nКоличество пустых забросов: " << castCounter;
+				return 0;
 			}
 			catch (...) {
 				cerr << "\nВызвано исключение ... ";
 			};
 		}
-		if (fishedOut == -1) {
-			cout << "\nВаш сапог!";
-			break;
-		}
-		else if (fishedOut == 1) {
-			cout << "\nПоздравляем Вы поймали рыбку. Может быть она золотая.";
-			break;
-		}
 		if (fishedOut == 0) {
 			cast = true;
+			castCounter++;
 			cout << " Кажется клюёт.";
 		}
 	}
