@@ -24,14 +24,28 @@ public:
 };
 
 class BiteException : public exception {
+	int castCounter=0;
 public:
+	int getCounter() {
+		return castCounter;
+	}
+	void addCounter() {
+		++castCounter;
+	}
 	const char* what() const noexcept override {
 		return "Поздравляем Вы поймали рыбку. Может быть она золотая.";
 	}
 };
 
 class FishException : public exception {
+	int castCounter=0;
 public:
+	int getCounter() {
+		return castCounter;
+	}
+	void addCounter() {
+		++castCounter;
+	}
 	const char* what() const noexcept override {
 		return "Ваш сапог!";
 	}
@@ -76,8 +90,10 @@ int main()
 	cout << "                               Из - под уток и гусей\n";
 	cout << "                               Извлекает карасей...\n";
 
-	int field[9], numberField=0, fishedOut=0, castCounter=0;
+	int field[9], numberField = 0, fishedOut = 0;
 	bool cast = true;
+	BiteException be;
+	FishException fe;
 	for (int i = 0; i < 9; ++i) {
 		field[i] = 0;
 	}
@@ -111,12 +127,12 @@ int main()
 			}
 			catch(BiteException & err) {
 				cerr << "\nВызвано исключение : " << err.what();
-				cout << "\nКоличество пустых забросов: " << castCounter;
+				cout << "\nКоличество пустых забросов: " << be.getCounter();
 				return -1;
 			}
 			catch  (FishException& err) {
 				cerr << "\nВызвано исключение : " << err.what();
-				cout << "\nКоличество пустых забросов: " << castCounter;
+				cout << "\nКоличество пустых забросов: " << fe.getCounter();
 				return 0;
 			}
 			catch (...) {
@@ -125,7 +141,8 @@ int main()
 		}
 		if (fishedOut == 0) {
 			cast = true;
-			castCounter++;
+			be.addCounter();
+			fe.addCounter();
 			cout << " Кажется клюёт.";
 		}
 	}
