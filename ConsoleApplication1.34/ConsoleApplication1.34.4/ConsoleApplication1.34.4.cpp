@@ -9,13 +9,11 @@ using namespace std;
 
 template <typename T>
 T arithmeticMean(const vector<T>& v) {
-	int count = 0;
 	T sum = 0;
 	for (int i = 0; i < v.size(); ++i) {
 		sum += v[i];
-		++count;
 	}
-	return sum /(T) count;
+	return sum / v.size();
 }
 
 void checkInput(int numEl) {
